@@ -15,8 +15,8 @@ class User:
         # self.logger.addHandler(handler)
     def login(self):
         self.logger.info(f"{self.role} {self.username} login") 
-        response = requests.get(f'http://localhost:7000/login/{self.username}/{self.password}')
-        self.logger.info(response.content)
+        self.response = requests.get(f'http://localhost:7000/login/{self.username}/{self.password}')
+        self.logger.info(self.response.content)
         
 class Student(User):
     def __init__(self, username, password):
