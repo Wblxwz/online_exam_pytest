@@ -11,13 +11,14 @@ class User:
         self.id = id
         self.logger = logging.getLogger(f'{self.role}_{self.username}')
         self.logger.setLevel(logging.DEBUG)
+        self.url = "http://localhost:7000"
         # handler = logging.FileHandler(f'./log/{self.role}_{time.time()}.log')
         # formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         # handler.setFormatter(formatter)
         # self.logger.addHandler(handler)
     def login(self):
         self.logger.info(f"{self.role} {self.username} login") 
-        response = requests.get(f'http://localhost:7000/login/{self.username}/{self.password}')
+        response = requests.get(f'{self.url}/login/{self.username}/{self.password}')
         self.logger.info(response.content)
         return response
         
@@ -35,8 +36,11 @@ class Teacher(User):
             "class_name": "cs222",
             "tid": self.id
         }
-        response = requests.post(url='http://localhost:7000/cclass',json=data)
+        response = requests.post(url=f'{self.url}/cclass',json=data)
         self.logger.info(response.content)
+        return response
+    def deleteClass(self,id):
+        response = requests.delete(url=f'{self.url}/cclass/{id}')
         return response
 class Root(User):
     def __init__(self, username, password,id):
